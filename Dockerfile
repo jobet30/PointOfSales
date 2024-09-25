@@ -10,7 +10,7 @@ WORKDIR /app
 
 COPY requirements.in .
 
-RUN pip install -r requirement.in
+RUN pip install -r requirement.txt
 
 COPY . .
 
