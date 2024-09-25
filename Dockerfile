@@ -13,7 +13,7 @@ COPY . .
 ENV DJANGO_SETTING_MODULE=PointOfSales.settings
 ENV DATABASE_URL=postgres://user:password@localhost:5432/POS
 
-RUN python manage.py migrate
+RUN python -m manage migrate
 
 CMD ["gunicord", "-w", "4", "-b", ":8000", "pointofsales.wsgi:application"]
 
