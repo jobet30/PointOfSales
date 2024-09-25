@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-pos-app
+  namespace: my-pos-app
+  labels:
+    app: my-pos-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-pos-app
+  template:
+    metadata:
+      labels:
+        app: my-pos-app
+    spec:
+      containers:
+      - name: my-pos-app
+        image: my-pos-app:latest
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            cpu: 500m
+            memory: 512Mi
+          limits:
+            cpu: 1
+            memory: 1Gi
+        env:
+        - name: DATABASE_URL
+          value: "postgres://user:password@database-host:5432/pos"
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: my-pos-app-secrets
+              key: SECRET_KEY
+        - name: DJANGO_SETTINGS_MODULE
+          value: "myproject.settings"
+        - name: LOGGING_CONFIG
+          value: "production"
+        - name: DEBUG
+          value: "false"
+        - name: ALLOWED_HOSTS
+          value: "*.example.com, 127.0.0.1, [::1]"
+        volumeMounts:
+        - name: my-pos-app-data
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: my-pos-app-data
+        persistentVolumeClaim:
+          claimName
