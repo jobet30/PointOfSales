@@ -10,10 +10,6 @@ WORKDIR /app
 
 COPY . .
 
-RUN pip install -r requirement.txt
-
-COPY . .
-
 ENV DJANGO_SETTING_MODULE=PointOfSales.settings
 ENV DATABASE_URL=postgres://user:password@localhost:5432/POS
 
